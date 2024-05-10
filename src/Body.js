@@ -1,45 +1,25 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import RestaurantCard from "./RestaurantCard";
 
 
-
-
-
-
-
 const Body = () => {
-  const [obj, setObj] = useState([{"info": {
-    "id": "263733",
-    "name": "Pure Veg Meals by LunchBox",
-    "cloudinaryImageId": "qv2jbeieltor1lgurvg0",
-    "locality": "Chetak Bridge",
-    "areaName": "Maharana Pratap Nagar",
-    "costForTwo": "₹200 for two",
-    "avgrate": "3",
+  const [obj, setObj] = useState([]);
 
-    "cuisines": [
-      "Biryani",
-      "North Indian",
-      "Desserts",
-      "Beverages"
-    ]}},{
-        "info": {
-          "id": "697116",
-          "name": "Ghamandi lassi",
-          "cloudinaryImageId": "b978026e2f78aa777bf93ffa95fed662",
-          "locality": "Jyoti Talkies Shopping Complex",
-          "areaName": "MP Nagar",
-          "avgrate": "5",
-          "costForTwo": "₹140 for two",
-          "cuisines": [
-            "Cakes and Pastries",
-            "Beverages",
-            "Juices",
-            "Bakery",
-            "Sweets"
-          ]}}]);
+  
+          useEffect(()=>{
+            fetchData();
+          },[]);
 
-  const [searchText, setSearchText] = useState("");
+          const fetchData = async()=> {
+            const data = await fetch("https://www.swiggy.com/mapi/restaurants/list/v5?offset=0&is-seo-homepage-enabled=true&lat=23.2522328&lng=77.4014255&carousel=true&third_party_vendor=1");
+            const json = await data.json();
+            
+            
+            setObj(json?.data?.cards[4]?.card?.card?.gridElements?.infoWithStyle?.restaurants);
+            
+
+          }
+          const [searchText, setSearchText] = useState("");
 
   return (
     <div>
@@ -65,7 +45,12 @@ const Body = () => {
             setObj(fil);
             }}>
            Top Rated Restaurant
+        
           </button>
+          
+      </div>
+      <div><h1>What's on your mind?</h1>
+   
       </div>
       
       <div className="flex">{
